@@ -5,10 +5,11 @@ import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 
 const ProjectDetails = (props) => {
-  console.log("d", props);
   const id = props.match.params.id;
-  const { project } = props;
-  console.log("ppp", project);
+  const { project, auth } = props;
+  console.log("prodetails", project);
+  console.log("proauthdetails", auth);
+  if (!auth.uid) return <Redirect to="/signin" />;
   if (project) {
     return (
       <div className="container section project-details">
