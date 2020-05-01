@@ -15,6 +15,9 @@ import {
 import { ReactReduxFirebaseProvider, getFirebase } from "react-redux-firebase";
 import fbConfig from "./config/fbConfig";
 import firebase from "firebase/app";
+//for render on auth ready
+import { useSelector } from "react-redux";
+import { isLoaded } from "react-redux-firebase";
 
 const store = createStore(
   rootReducer,
@@ -25,17 +28,40 @@ const store = createStore(
   )
 );
 
+//construct required properties
+const profileSpecificProps = {
+  userProfile: "users",
+  useFirestoreForProfile: true,
+  enableRedirectHandling: false,
+  resetBeforeLogin: false,
+};
+
 const rrfProps = {
   firebase,
   config: fbConfig,
+  config: profileSpecificProps,
   dispatch: store.dispatch,
   createFirestoreInstance,
 };
 
+function AuthIsLoaded({ children }) {
+  const auth = useSelector((state) => state.firebase.auth);
+  if (!isLoaded(auth))
+    return (
+      <div className="center">
+        {" "}
+        <p>Loading Mario Plan...</p>
+      </div>
+    );
+  return children;
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
-      <App />
+      <AuthIsLoaded>
+        <App />
+      </AuthIsLoaded>
     </ReactReduxFirebaseProvider>
   </Provider>,
   document.getElementById("root")

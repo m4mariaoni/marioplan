@@ -22,10 +22,12 @@ const ProjectDetails = (props) => {
             <div className="card-action grey lighten-4 grey-text">
               <div>
                 {" "}
-                Posted by{project.authorFirstName}
+                Posted by {project.authorFirstName}
                 {project.authorLastName}
               </div>
-              <div className="grey-text">3rd Sepember, 2am</div>
+              <div className="grey-text">
+                {project.createdAt.toDate().toDateString()}
+              </div>
             </div>
           </div>
         </div>

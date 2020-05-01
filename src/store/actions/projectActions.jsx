@@ -4,13 +4,16 @@ export const createProject = (project) => {
     //dispatch the CRUD actions
     //sent to reducer
     const firestore = getFirestore();
+    const profile = getState().firebase.profile;
+    const authorId = getState().firebase.auth.uid;
+    console.log("projectAction", getState());
     firestore
       .collection("projects")
       .add({
         ...project,
-        authorFirstName: "Net",
-        authorLastName: "Ninja",
-        authorId: 12345,
+        authorFirstName: profile.firstName,
+        authorLastName: profile.lastName,
+        authorId: authorId,
         createdAt: new Date(),
       })
       .then(() => {

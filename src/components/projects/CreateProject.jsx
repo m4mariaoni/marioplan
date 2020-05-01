@@ -16,11 +16,12 @@ class CreateProject extends Component {
     e.preventDefault();
     //console.log(this.state);
     this.props.createProject(this.state); //line 48
+    this.props.history.push("/");
   };
 
   render() {
-    const {auth} = this.props
-    if(!auth.uid) return <Redirect to="/signin" />
+    const { auth } = this.props;
+    if (!auth.uid) return <Redirect to="/signin" />;
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="white">
@@ -49,7 +50,7 @@ class CreateProject extends Component {
 const mapStateToProps = (state) => {
   console.log("createProject1", state);
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
   };
 };
 
